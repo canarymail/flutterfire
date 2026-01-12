@@ -4,11 +4,13 @@
 // found in the LICENSE file.
 
 import 'dart:async';
+import 'dart:io' show Platform;
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_core_platform_interface/firebase_core_platform_interface.dart'
     show FirebasePluginPlatform;
 import 'package:firebase_messaging_platform_interface/firebase_messaging_platform_interface.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 export 'package:firebase_messaging_platform_interface/firebase_messaging_platform_interface.dart'
     show
@@ -26,4 +28,5 @@ export 'package:firebase_messaging_platform_interface/firebase_messaging_platfor
         RemoteNotification,
         WebNotification;
 
+part 'src/platforms/firebase_messaging_windows_stub.dart';
 part 'src/messaging.dart';

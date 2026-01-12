@@ -17,8 +17,15 @@ class FirebaseMessaging extends FirebasePluginPlatform {
   static Map<String, FirebaseMessaging> _firebaseMessagingInstances = {};
 
   FirebaseMessagingPlatform get _delegate {
-    return _delegatePackingProperty ??= FirebaseMessagingPlatform.instanceFor(
-        app: app, pluginConstants: pluginConstants);
+    if (_delegatePackingProperty == null) {
+      // Set Windows stub instance if on Windows
+      if (!kIsWeb && Platform.isWindows) {
+        FirebaseMessagingPlatform.instance = FirebaseMessagingWindowsStub.instance;
+      }
+      _delegatePackingProperty = FirebaseMessagingPlatform.instanceFor(
+          app: app, pluginConstants: pluginConstants);
+    }
+    return _delegatePackingProperty!;
   }
 
   /// The [FirebaseApp] for this current [FirebaseMessaging] instance.

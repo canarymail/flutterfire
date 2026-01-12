@@ -20,7 +20,21 @@ class Firebase {
   static FirebasePlatform? delegatePackingProperty;
 
   static FirebasePlatform get _delegate {
-    return delegatePackingProperty ??= FirebasePlatform.instance;
+    return delegatePackingProperty ??= _getPlatform();
+  }
+
+  static FirebasePlatform _getPlatform() {
+    if (kIsWeb) {
+      // Web platform is handled by firebase_core_web package via conditional exports
+      return FirebasePlatform.instance;
+    }
+
+    if (Platform.isWindows) {
+      return FirebaseCoreWindowsStub.instance;
+    }
+
+    // Use default MethodChannelFirebase for Android, iOS, macOS, Linux
+    return FirebasePlatform.instance;
   }
 
   /// Returns a list of all [FirebaseApp] instances that have been created.
